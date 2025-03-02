@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  mqtt-broker:
+    image: eclipse-mosquitto
+    container_name: mqtt-broker
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+    restart: always
+
+  datalogger1:
+    build: .
+    container_name: datalogger1
+    environment:
+      - MQTT_BROKER=mqtt-broker
+      - MQTT_PORT=1883
+      - DEVICE_ID=datalogger1
+      - SEND_INTERVAL=5
+    depends_on:
+      - mqtt-broker
+
+  datalogger2:
+    build: .
+    container_name: datalogger2
+    environment:
+      - MQTT_BROKER=mqtt-broker
+      - MQTT_PORT=1883
+      - DEVICE_ID=datalogger2
+      - SEND_INTERVAL=5
+    depends_on:
+      - mqtt-broker
+
+  datalogger3:
+    build: .
+    container_name: datalogger3
+    environment:
+      - MQTT_BROKER=mqtt-broker
+      - MQTT_PORT=1883
+      - DEVICE_ID=datalogger3
+      - SEND_INTERVAL=5
+    depends_on:
+      - mqtt-broker

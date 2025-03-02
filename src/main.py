@@ -1,9 +1,14 @@
 import os
 from dotenv import load_dotenv
 from datalogger import DataLogger
+from pathlib import Path
 
-# Last miljøvariabler fra .env-filen
-load_dotenv()
+# Finn den absolutte stien til root-mappen
+BASE_DIR = Path(__file__).resolve().parent.parent  # Går opp fra 'src/' til root
+
+# Last .env-filen eksplisitt fra root-mappen
+dotenv_path = BASE_DIR / ".env"
+load_dotenv(dotenv_path=dotenv_path)
 
 if __name__ == "__main__":
     # Hent konfigurasjon fra miljøvariabler
